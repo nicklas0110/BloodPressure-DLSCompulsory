@@ -1,0 +1,12 @@
+/* Basic styling for form elements */
+div {
+  margin-bottom: 10px;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  margin-right: 10px;
+}
