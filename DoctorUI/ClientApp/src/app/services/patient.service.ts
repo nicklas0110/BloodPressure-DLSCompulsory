@@ -8,7 +8,7 @@ import { Patient } from '../models/patient.model';
 export class PatientService {
   private patients: Patient[] = [
     {
-      ssn: '123-456-789',
+      ssn: '0123456789',
       mail: 'john.doe@example.com',
       name: 'John Doe',
       measurements: [
