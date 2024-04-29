@@ -1,6 +1,6 @@
 ﻿namespace MeasurementDatabase.Core.DTOs;
 
-public class CreateMeasurementDTO
+public class MeasurementDTO
 {
     public DateTime DateTaken { get; set; }
     public int Systolic { get; set; }

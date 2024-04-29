@@ -1,5 +1,5 @@
 ﻿using MeasurementDatabase.Core.Repositories.Interfaces;
-using MeasurementDatabase.Models;
+using MeasurementDatabase.Core.Entities;
 using MeasurementDatabase.Tools;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +22,8 @@ public class MeasurementRepository : IMeasurementRepository
         {
             throw new KeyNotFoundException($"No measurementId matches input: {measurementId}");
         }
+
+        return measurement;
     }
 
     public Task<Measurement> GetAllMeasurementsByPatientId(int id)
