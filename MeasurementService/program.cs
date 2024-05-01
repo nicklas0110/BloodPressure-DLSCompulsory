@@ -8,8 +8,9 @@ using OpenTelemetry.Trace;
 using MeasurementService.Interfaces;
 using MeasurementService.Core.Repositories;
 using MS = MeasurementService.Services;
+using DbEntities = MeasurementService.Core.Entities;
 using MeasurementService.Core.Repositories.Interfaces;
-using MeasurementService.Tools;
+using MeasurementService.Core.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,15 +27,15 @@ builder.Services.AddSwaggerGen();
 var mapperConfig = new MapperConfiguration(config =>
 {
     //DTO to entity
-    config.CreateMap<MeasurementDTO, MeasurementService.Core.Entities.Measurement>();
+    config.CreateMap<MeasurementDTO, DbEntities.Measurement>();
 }).CreateMapper();
 
 builder.Services.AddSingleton(mapperConfig);
 
 builder.Services.AddDbContext<MeasurementDbContext>();
 
-builder.Services.AddScoped<IMeasurementService, MS.MeasurementService>();
 builder.Services.AddScoped<IMeasurementRepository, MeasurementRepository>();
+builder.Services.AddScoped<IMeasurementService, MS.MeasurementService>();
 
 var app = builder.Build();
 
@@ -52,8 +53,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

@@ -26,31 +26,19 @@ public class MeasurementController : ControllerBase // Make sure it derives from
     }
 
     [HttpPost]
-    [Route("AddMeasurements")]
-    public async Task<IActionResult> AddMeasurements(MeasurementDTO measurementDTO)
+    [Route("addMeasurements")]
+    public async Task<IActionResult> AddMeasurements([FromBody] MeasurementDTO dto)  
     {
         try
         {
-            // Ensure measurementDTO is valid and convert it if necessary
-            var payload = JsonSerializer.Serialize(measurementDTO);
-            var content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-            var retryPolicy = Policy.Handle<HttpRequestException>().Retry(3, (exception, retryCount) =>
-            {
-                _logger.LogError($"Failed to connect to the server. Retrying... Attempt {retryCount}");
-            });
-
-            // Use retry policy to attempt the post request
-            await retryPolicy.Execute(() => _httpClient.PostAsync("http://localhost:8082/api/Measurement/AddMeasurements/", content));
-
-            var result = await _measurementService.AddMeasurements(measurementDTO);
-
-            return Ok(result);
+            await _measurementService.AddMeasurements(dto);
+            return StatusCode(201, "Measurement successfully posted");
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error adding measurement");
             return BadRequest(e.Message);
         }
     }
+    
+    
 }

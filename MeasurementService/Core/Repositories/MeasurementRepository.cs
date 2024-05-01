@@ -1,7 +1,9 @@
 ﻿using MeasurementService.Core.Repositories.Interfaces;
 using MeasurementService.Core.Entities;
-using MeasurementService.Tools;
+using MeasurementService.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Monitoring;
+using OpenTelemetry.Trace;
 using DBEntities = MeasurementService.Core.Entities;
 
 namespace MeasurementService.Core.Repositories;
@@ -10,32 +12,38 @@ public class MeasurementRepository : IMeasurementRepository
 {
 
     private readonly MeasurementDbContext _context;
+    private Tracer _tracer;
 
-    public MeasurementRepository(MeasurementDbContext context)
+    public MeasurementRepository(MeasurementDbContext context, Tracer tracer)
     {
         _context = context;
+        _tracer = tracer;
     }
 
+    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsByPatientId(int id)
+    {
+        using var activity = _tracer.StartActiveSpan("GetAllMeasurementsByPatientId");
+        
+        Logging.Log.Information("Called GetAllMeasurementsByPatientId function");
+
+        return await _context.Measurements.ToListAsync();
+    }
+    
     public async Task<DBEntities.Measurement> GetMeasurementById(int measurementId)
     {
-        var measurement = await _context.Measurements.FirstOrDefaultAsync(m => m.Id == measurementId);
-        if (measurement == null)
-        {
-            throw new KeyNotFoundException($"No measurementId matches input: {measurementId}");
-        }
-
-        return measurement;
+        using var activity = _tracer.StartActiveSpan("GetMeasurementById");
+        
+        Logging.Log.Information("Called GetMeasurementById function");
+        
+        return await _context.Measurements.FirstOrDefaultAsync(c => c.Id == measurementId);
     }
-
-    public async Task<DBEntities.Measurement> GetAllMeasurementsByPatientId(int id)
-    {
-        throw new NotImplementedException();
-        //return await _context.Measurements.Where(m => m.PatientSSN == id).ToListAsync();
-    }
-
 
     public async Task AddMeasurements(DBEntities.Measurement measurement)
     {
+        using var activity = _tracer.StartActiveSpan("AddMeasurementToDB");
+        
+        Logging.Log.Information("AddMeasurementToDB");
+        
         await _context.Measurements.AddAsync(measurement);
         await _context.SaveChangesAsync();
     }
@@ -48,4 +56,13 @@ public class MeasurementRepository : IMeasurementRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task RebuildDatabase()
+    { 
+        using var activity = _tracer.StartActiveSpan("Rebuild DB");
+        
+        Logging.Log.Information("Called RebuildDatabase function");
+
+        await _context.Database.EnsureDeletedAsync(); 
+        await _context.Database.EnsureCreatedAsync();
+    }
 }

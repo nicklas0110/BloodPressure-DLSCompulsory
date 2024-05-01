@@ -1,34 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <OutputType>Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-        <OutputType>Exe</OutputType>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="13.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.17"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.16"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.16"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.16">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.17" />
-        <PackageReference Include="OpenTelemetry" Version="1.7.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.7.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.7.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-        <PackageReference Include="Polly" Version="7.2.4" />
-    </ItemGroup>
 
     <ItemGroup>
         <Content Include="..\.dockerignore">
@@ -37,8 +15,32 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.17" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.16" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.16" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.16">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="OpenTelemetry" Version="1.7.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.7.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.7.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Polly" Version="7.2.4" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Monitoring\Monitoring.csproj" />
     </ItemGroup>
 
-
+    <ItemGroup>
+      <Folder Include="Tools\" />
+    </ItemGroup>
+    
 </Project>

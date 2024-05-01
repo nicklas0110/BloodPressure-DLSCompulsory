@@ -27,6 +27,7 @@ services:
     depends_on:
       - zipkin
       - seq
+      - measurement-db
 
   seq:
     image: datalust/seq:latest
@@ -38,7 +39,7 @@ services:
     networks:
       - local_network
     environment:
-      - ACCEPT_EULA=Y
+      ACCEPT_EULA: "Y"
 
   zipkin:
     image: openzipkin/zipkin

@@ -12,15 +12,20 @@ using MeasurementService.Core.Repositories.Interfaces;
 
 namespace MeasurementService.Services;
 
-public class MeasurementService : IMeasurementService // Ensure it implements the interface
+public class MeasurementService : IMeasurementService
 {
     private readonly IMeasurementRepository _measurementRepository;
     private readonly IMapper _mapper;
 
-    public MeasurementService(IMeasurementRepository mesurementRepository, IMapper mapper)
+    public MeasurementService(IMeasurementRepository measurementRepository, IMapper mapper)
     {
-        _measurementRepository = mesurementRepository;
+        _measurementRepository = measurementRepository;
         _mapper = mapper;
+    }
+    
+    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsByPatientId(int patientId)
+    {
+        return await _measurementRepository.GetAllMeasurementsByPatientId(patientId);
     }
     
     public async Task<DBEntities.Measurement> GetMeasurementById(int measureId)
@@ -29,34 +34,20 @@ public class MeasurementService : IMeasurementService // Ensure it implements th
     }
 
 
-    public async Task<DBEntities.Measurement> AddMeasurements(MeasurementDTO measurementDTO)
+    public async Task AddMeasurements(MeasurementDTO measurementDTO)
     {
-        var measurement = new DBEntities.Measurement
-        {
-            DateTaken = measurementDTO.DateTaken,
-            Systolic = measurementDTO.Systolic,
-            Diastolic = measurementDTO.Diastolic,
-            Seen = measurementDTO.Seen
-        };
-
-        await _measurementRepository.AddMeasurements(measurement);
-
-        return measurement;
+        await _measurementRepository.AddMeasurements(_mapper.Map<DBEntities.Measurement>(measurementDTO));
     }
 
 
-    
-
-    public async Task<DBEntities.Measurement> GetAllMeasurementsByPatientId(int patientId)
-    {
-        return await _measurementRepository.GetAllMeasurementsByPatientId(patientId);
-    }
-
-    
     public async Task DeleteMeasurement(int measurementId)
     {
         await _measurementRepository.DeleteMeasurement(measurementId);
     }
 
+    public async Task RebuildDatabase()
+    {
+        await _measurementRepository.RebuildDatabase();
+    }
 
 }

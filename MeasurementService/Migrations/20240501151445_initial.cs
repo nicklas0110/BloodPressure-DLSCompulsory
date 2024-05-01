@@ -26,12 +26,6 @@ namespace MeasurementService.Migrations
                 {
                     table.PrimaryKey("PK_Measurements", x => x.Id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Measurements_DateTaken",
-                table: "Measurements",
-                column: "DateTaken",
-                unique: true);
         }
 
         /// <inheritdoc />
