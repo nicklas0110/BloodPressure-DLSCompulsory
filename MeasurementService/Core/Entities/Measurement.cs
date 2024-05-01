@@ -1,4 +1,4 @@
-﻿namespace MeasurementDatabase.Core.Entities;
+﻿namespace MeasurementService.Core.Entities;
 
 public class Measurement
 {

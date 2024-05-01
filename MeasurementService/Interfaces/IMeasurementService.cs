@@ -1,9 +1,9 @@
-using MeasurementDatabase.Core.Entities;
+using MeasurementService.Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DBEntities = MeasurementDatabase.Core.Entities;
+using DBEntities = MeasurementService.Core.Entities;
 
-using MeasurementDatabase.Core.DTOs;
+using MeasurementService.Core.DTOs;
 
 namespace MeasurementService.Interfaces;
 
@@ -11,9 +11,9 @@ public interface IMeasurementService
 {
     Task<DBEntities.Measurement> GetMeasurementById(int measureId); // For fetching a specific measurement
     
-    Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsByPatientId(int patientId); // For fetching all measurements
+    Task<DBEntities.Measurement> GetAllMeasurementsByPatientId(int patientId); // For fetching all measurements
     
-    Task<DBEntities.Measurement> AddMeasurement(MeasurementDTO measurementDTO); // For adding a new measurement
+    Task<DBEntities.Measurement> AddMeasurements(MeasurementDTO measurementDTO); // For adding a new measurement
 
     Task DeleteMeasurement(int measurementId); // For deleting a specific measurement
 }

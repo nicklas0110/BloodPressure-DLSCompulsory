@@ -1,4 +1,4 @@
-﻿namespace MeasurementDatabase.Core.DTOs;
+﻿namespace MeasurementService.Core.DTOs;
 
 public class MeasurementDTO
 {

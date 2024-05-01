@@ -1,9 +1,10 @@
-﻿using MeasurementDatabase.Core.Repositories.Interfaces;
-using MeasurementDatabase.Core.Entities;
-using MeasurementDatabase.Tools;
+﻿using MeasurementService.Core.Repositories.Interfaces;
+using MeasurementService.Core.Entities;
+using MeasurementService.Tools;
 using Microsoft.EntityFrameworkCore;
+using DBEntities = MeasurementService.Core.Entities;
 
-namespace MeasurementDatabase.Core.Repositories;
+namespace MeasurementService.Core.Repositories;
 
 public class MeasurementRepository : IMeasurementRepository
 {
@@ -15,7 +16,7 @@ public class MeasurementRepository : IMeasurementRepository
         _context = context;
     }
 
-    public async Task<Measurement> GetMeasurementById(int measurementId)
+    public async Task<DBEntities.Measurement> GetMeasurementById(int measurementId)
     {
         var measurement = await _context.Measurements.FirstOrDefaultAsync(m => m.Id == measurementId);
         if (measurement == null)
@@ -26,14 +27,14 @@ public class MeasurementRepository : IMeasurementRepository
         return measurement;
     }
 
-    public async Task<Measurement> GetAllMeasurementsByPatientId(int id)
+    public async Task<DBEntities.Measurement> GetAllMeasurementsByPatientId(int id)
     {
         throw new NotImplementedException();
         //return await _context.Measurements.Where(m => m.PatientSSN == id).ToListAsync();
     }
 
 
-    public async Task AddMeasurement(Measurement measurement)
+    public async Task AddMeasurements(DBEntities.Measurement measurement)
     {
         await _context.Measurements.AddAsync(measurement);
         await _context.SaveChangesAsync();

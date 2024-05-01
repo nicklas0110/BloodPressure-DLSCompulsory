@@ -4,28 +4,15 @@ services:
   measurement-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      - MSSQL_SA_PASSWORD=YourStrongPassword123  # Use a strong password
-      - ACCEPT_EULA=Y
+      MYSQL_DATABASE: 'zipkin'
+      MSSQL_SA_PASSWORD: "uhohst1nky!"
+      ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
     volumes:
       - mssql_data_db:/var/opt/mssql
     networks:
       - local_network
-
-  measurementdatabase:
-    image: measurementdatabase
-    build:
-      context: .
-      dockerfile: ./MeasurementDatabase/Dockerfile
-    ports:
-      - "8081:80"
-      - "8082:443"
-    networks:
-      - local_network
-    depends_on:
-      - zipkin
-      - seq
 
   measurementService:
     image: measurementservice

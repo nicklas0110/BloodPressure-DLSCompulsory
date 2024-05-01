@@ -2,31 +2,34 @@ using MeasurementService.Interfaces;
 using System.Diagnostics;
 using Monitoring;
 using OpenTelemetry.Trace;
-using DBEntities = MeasurementDatabase.Core.Entities;
+using DBEntities = MeasurementService.Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MeasurementDatabase.Core.DTOs;
-using MeasurementDatabase.Core.Repositories;
+using AutoMapper;
+using MeasurementService.Core.DTOs;
+using MeasurementService.Core.Repositories;
+using MeasurementService.Core.Repositories.Interfaces;
 
 namespace MeasurementService.Services;
 
 public class MeasurementService : IMeasurementService // Ensure it implements the interface
 {
-    private readonly Tracer _tracer;
-    private IMeasurementService _measurementServiceImplementation;
+    private readonly IMeasurementRepository _measurementRepository;
+    private readonly IMapper _mapper;
 
-    public MeasurementService(Tracer tracer)
+    public MeasurementService(IMeasurementRepository mesurementRepository, IMapper mapper)
     {
-        _tracer = tracer;
+        _measurementRepository = mesurementRepository;
+        _mapper = mapper;
     }
     
     public async Task<DBEntities.Measurement> GetMeasurementById(int measureId)
     {
-        return await _measurementServiceImplementation.GetMeasurementById(measureId);
+        return await _measurementRepository.GetMeasurementById(measureId);
     }
 
 
-    public async Task<DBEntities.Measurement> AddMeasurement(MeasurementDTO measurementDTO)
+    public async Task<DBEntities.Measurement> AddMeasurements(MeasurementDTO measurementDTO)
     {
         var measurement = new DBEntities.Measurement
         {
@@ -36,15 +39,7 @@ public class MeasurementService : IMeasurementService // Ensure it implements th
             Seen = measurementDTO.Seen
         };
 
-        var measurementDTOToSend = new MeasurementDTO
-        {
-            DateTaken = measurement.DateTaken,
-            Systolic = measurement.Systolic,
-            Diastolic = measurement.Diastolic,
-            Seen = measurement.Seen
-        };
-
-        await _measurementServiceImplementation.AddMeasurement(measurementDTOToSend);
+        await _measurementRepository.AddMeasurements(measurement);
 
         return measurement;
     }
@@ -52,15 +47,15 @@ public class MeasurementService : IMeasurementService // Ensure it implements th
 
     
 
-    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsByPatientId(int patientId)
+    public async Task<DBEntities.Measurement> GetAllMeasurementsByPatientId(int patientId)
     {
-        return await _measurementServiceImplementation.GetAllMeasurementsByPatientId(patientId);
+        return await _measurementRepository.GetAllMeasurementsByPatientId(patientId);
     }
 
     
     public async Task DeleteMeasurement(int measurementId)
     {
-        await _measurementServiceImplementation.DeleteMeasurement(measurementId);
+        await _measurementRepository.DeleteMeasurement(measurementId);
     }
 
 

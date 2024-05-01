@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MeasurementDatabase.Core.DTOs;
+using MeasurementService.Core.DTOs;
 using MeasurementService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +11,7 @@ using Polly;
 
 namespace Measurement.Controllers;
 
+[ApiController]
 [Route("api/[controller]")]
 public class MeasurementController : ControllerBase // Make sure it derives from ControllerBase for web functionalities
 {
@@ -42,7 +43,7 @@ public class MeasurementController : ControllerBase // Make sure it derives from
             // Use retry policy to attempt the post request
             await retryPolicy.Execute(() => _httpClient.PostAsync("http://localhost:8082/api/Measurement/AddMeasurements/", content));
 
-            var result = await _measurementService.AddMeasurement(measurementDTO);
+            var result = await _measurementService.AddMeasurements(measurementDTO);
 
             return Ok(result);
         }
