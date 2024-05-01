@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  measurement-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - MSSQL_SA_PASSWORD=YourStrongPassword123  # Use a strong password
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data_db:/var/opt/mssql
+    networks:
+      - local_network
+
+  measurementdatabase:
+    image: measurementdatabase
+    build:
+      context: .
+      dockerfile: ./MeasurementDatabase/Dockerfile
+    ports:
+      - "8081:80"
+      - "8082:443"
+    networks:
+      - local_network
+    depends_on:
+      - zipkin
+      - seq
+
+  measurementService:
+    image: measurementservice
+    build:
+      context: .
+      dockerfile: ./MeasurementService/Dockerfile
+    ports:
+      - "8083:80"
+      - "8084:443"
+    networks:
+      - local_network
+    depends_on:
+      - zipkin
+      - seq
+
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:5341"
+      - "5342:80"
+    volumes:
+      - seq_data:/data
+    networks:
+      - local_network
+    environment:
+      - ACCEPT_EULA=Y
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_HOST=zipkin-storage
+      - MYSQL_USER=zipkin
+      - MYSQL_PASS=zipkin
+    depends_on:
+      - zipkin-storage
+    networks:
+      - local_network
+
+  zipkin-storage:
+    image: openzipkin/zipkin-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - zipkin_data:/mysql/data
+    networks:
+      - local_network
+    environment:
+      - MYSQL_USER=zipkin
+
+volumes:
+  seq_data:
+  zipkin_data:
+  mssql_data_db:
+networks:
+  local_network:
+    driver: bridge

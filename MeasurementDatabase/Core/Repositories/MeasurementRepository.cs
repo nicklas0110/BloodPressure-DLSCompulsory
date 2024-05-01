@@ -26,18 +26,25 @@ public class MeasurementRepository : IMeasurementRepository
         return measurement;
     }
 
-    public Task<Measurement> GetAllMeasurementsByPatientId(int id)
+    public async Task<Measurement> GetAllMeasurementsByPatientId(int id)
     {
         throw new NotImplementedException();
+        //return await _context.Measurements.Where(m => m.PatientSSN == id).ToListAsync();
     }
 
-    public Task AddMeasurement(Measurement measurement)
+
+    public async Task AddMeasurement(Measurement measurement)
     {
-        throw new NotImplementedException();
+        await _context.Measurements.AddAsync(measurement);
+        await _context.SaveChangesAsync();
     }
 
-    public Task DeleteMeasurement(int measurementId)
+
+    public async Task DeleteMeasurement(int measurementId)
     {
-        throw new NotImplementedException();
+        var measurement = await GetMeasurementById(measurementId);
+        _context.Measurements.Remove(measurement);
+        await _context.SaveChangesAsync();
     }
+
 }
