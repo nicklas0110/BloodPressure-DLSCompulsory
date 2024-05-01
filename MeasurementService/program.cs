@@ -10,7 +10,6 @@ using MeasurementService.Core.Repositories;
 using MS = MeasurementService.Services;
 using DbEntities = MeasurementService.Core.Entities;
 using MeasurementService.Core.Repositories.Interfaces;
-using MeasurementService.Core.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

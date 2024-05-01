@@ -42,6 +42,10 @@ namespace MeasurementService.Migrations
                     b.Property<int>("Systolic")
                         .HasColumnType("int");
 
+                    b.Property<string>("patientSSN")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Measurements");

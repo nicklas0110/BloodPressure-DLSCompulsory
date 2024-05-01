@@ -24,6 +24,7 @@ public class MeasurementController : ControllerBase // Make sure it derives from
         _logger = logger;
         _measurementService = measurementService;
     }
+    
 
     [HttpPost]
     [Route("addMeasurements")]
@@ -40,5 +41,34 @@ public class MeasurementController : ControllerBase // Make sure it derives from
         }
     }
     
+    [HttpGet]
+    [Route("getAllMeasurements/{measurementId}")]
+    public async Task<IActionResult> GetAllMeasurementById([FromRoute] int measurementId)
+    {
+        try
+        {
+            var measurement = await _measurementService.GetMeasurementById(measurementId);
+            return Ok(measurement);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpDelete]
+    [Route("deleteMeasurement/{measurementId}")]
+    public async Task<IActionResult> DeleteMeasurement([FromRoute] int measurementId)
+    {
+        try
+        {
+            await _measurementService.DeleteMeasurement(measurementId);
+            return StatusCode(201, "Measurement successfully deleted");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
     
 }

@@ -18,7 +18,11 @@ public class MeasurementDbContext : DbContext
         modelBuilder.Entity<Core.Entities.Measurement>()
             .Property(p => p.Id)
             .ValueGeneratedOnAdd();
-
+        
+        modelBuilder.Entity<Core.Entities.Measurement>()
+            .Property(p => p.PatientSSN)  
+            .HasColumnType("varchar(10)")  
+            .IsRequired();
     }
 
     public DbSet<Core.Entities.Measurement> Measurements { get; set; }

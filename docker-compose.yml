@@ -10,15 +10,43 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - mssql_data_db:/var/opt/mssql
+      - mssql_data_measurement_db:/var/opt/mssql
     networks:
       - local_network
+        
+  patient-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      MYSQL_DATABASE: 'zipkin'
+      MSSQL_SA_PASSWORD: "uhohst1nky!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1434"
+    volumes:
+      - mssql_data_patient_db:/var/opt/mssql
+    networks:
+      - local_network      
 
   measurementService:
     image: measurementservice
     build:
       context: .
       dockerfile: ./MeasurementService/Dockerfile
+    ports:
+      - "8081:80"
+      - "8082:443"
+    networks:
+      - local_network
+    depends_on:
+      - zipkin
+      - seq
+      - measurement-db
+        
+  patientService:
+    image: patientservice
+    build:
+      context: .
+      dockerfile: ./PatientService/Dockerfile
     ports:
       - "8083:80"
       - "8084:443"
@@ -27,7 +55,7 @@ services:
     depends_on:
       - zipkin
       - seq
-      - measurement-db
+      - patient-db
 
   seq:
     image: datalust/seq:latest
@@ -69,6 +97,8 @@ services:
 volumes:
   seq_data:
   zipkin_data:
+  mssql_data_measurement_db:
+  mssql_data_patient_db:
   mssql_data_db:
 networks:
   local_network:
