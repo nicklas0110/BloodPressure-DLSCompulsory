@@ -49,3 +49,10 @@ button:hover {
 .systolic {
   width: 20px;
 }
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}

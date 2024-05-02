@@ -2,7 +2,7 @@
 
 public class PatientDTO
 {
-    public int Ssn { get; set; }
+    public string Ssn { get; set; }
     public string Mail { get; set; }
     public string Name { get; set; }
 }

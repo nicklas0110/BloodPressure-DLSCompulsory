@@ -25,6 +25,20 @@ public class MeasurementController : ControllerBase // Make sure it derives from
         _measurementService = measurementService;
     }
     
+    [HttpGet]
+    [Route("getAllMeasurementsBySsn/{ssn}")]
+    public async Task<IActionResult> getAllMeasurementsBySsn([FromRoute] string ssn)
+    {
+        try
+        {
+            var measurements = await _measurementService.GetAllMeasurementsBySsn(ssn);
+            return Ok(measurements);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 
     [HttpPost]
     [Route("addMeasurements")]
@@ -42,8 +56,8 @@ public class MeasurementController : ControllerBase // Make sure it derives from
     }
     
     [HttpGet]
-    [Route("getAllMeasurements/{measurementId}")]
-    public async Task<IActionResult> GetAllMeasurementById([FromRoute] int measurementId)
+    [Route("getMeasurementById/{measurementId}")]
+    public async Task<IActionResult> GetMeasurementById([FromRoute] int measurementId)
     {
         try
         {

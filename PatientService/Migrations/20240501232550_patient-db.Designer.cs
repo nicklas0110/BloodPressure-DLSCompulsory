@@ -11,7 +11,7 @@ using PatientService.Core.Repositories;
 namespace PatientService.Migrations
 {
     [DbContext(typeof(PatientDbContext))]
-    [Migration("20240501200003_patient-db")]
+    [Migration("20240501232550_patient-db")]
     partial class patientdb
     {
         /// <inheritdoc />
@@ -27,11 +27,14 @@ namespace PatientService.Migrations
             modelBuilder.Entity("PatientService.Core.Entities.Patient", b =>
                 {
                     b.Property<int>("Ssn")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Ssn"));
 
                     b.Property<string>("Mail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -39,15 +42,13 @@ namespace PatientService.Migrations
 
                     b.HasKey("Ssn");
 
-                    b.ToTable("Patients");
+                    b.HasIndex("Mail")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Ssn = 1010101010,
-                            Mail = "g.g@gmail.com",
-                            Name = "John Doe"
-                        });
+                    b.HasIndex("Ssn")
+                        .IsUnique();
+
+                    b.ToTable("Patients");
                 });
 #pragma warning restore 612, 618
         }

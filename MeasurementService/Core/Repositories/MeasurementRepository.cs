@@ -1,6 +1,4 @@
 ﻿using MeasurementService.Core.Repositories.Interfaces;
-using MeasurementService.Core.Entities;
-using MeasurementService.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Monitoring;
 using OpenTelemetry.Trace;
@@ -20,14 +18,17 @@ public class MeasurementRepository : IMeasurementRepository
         _tracer = tracer;
     }
 
-    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsByPatientId(int id)
+    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsBySsn(string ssn)
     {
-        using var activity = _tracer.StartActiveSpan("GetAllMeasurementsByPatientId");
-        
-        Logging.Log.Information("Called GetAllMeasurementsByPatientId function");
+        using var activity = _tracer.StartActiveSpan("GetAllMeasurementsBySsn");
 
-        return await _context.Measurements.ToListAsync();
+        Logging.Log.Information("Called GetAllMeasurementsBySsn function");
+
+        return await _context.Measurements
+            .Where(m => m.PatientSSN == ssn)  // Add filtering condition
+            .ToListAsync();
     }
+
     
     public async Task<DBEntities.Measurement> GetMeasurementById(int measurementId)
     {

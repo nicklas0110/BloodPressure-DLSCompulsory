@@ -11,7 +11,7 @@ public class PatientDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            "Server=localhost;Database=PatientDb;User Id=sa;Password=uhohst1nky!;Trusted_Connection=False;TrustServerCertificate=True;",
+            "Server=patient-db;Database=PatientDb;User Id=SA;Password=uhohst1nky!;Trusted_Connection=False;TrustServerCertificate=True;",
             sqlOptions => {
                 sqlOptions.EnableRetryOnFailure(
                     maxRetryCount: 3, // Number of retry attempts
@@ -24,20 +24,12 @@ public class PatientDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<DBEntities.Patient>(entity =>
-        {
-            // Set the SSN as the primary key
-            entity.HasKey(p => p.Ssn);
+        modelBuilder.Entity<DBEntities.Patient>().HasKey(p => p.Ssn);
 
-            // Ensure SSN is not auto-generated, as it is assigned by the user
-            entity.Property(p => p.Ssn)
-                .ValueGeneratedNever();
-
-            modelBuilder.Entity<DBEntities.Patient>().HasData(
-                new DBEntities.Patient()
-                    { Ssn = 1010101010, Mail = "g.g@gmail.com", Name = "John Doe" });
-        });
+        modelBuilder.Entity<DBEntities.Patient>().HasIndex(p => p.Ssn).IsUnique();
+        modelBuilder.Entity<DBEntities.Patient>().HasIndex(p => p.Mail).IsUnique();
     }
 
-    public DbSet<DBEntities.Patient> Patients { get; set; }
+
+    public DbSet<Core.Entities.Patient> Patients { get; set; }
 }

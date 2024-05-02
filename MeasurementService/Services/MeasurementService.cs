@@ -23,9 +23,9 @@ public class MeasurementService : IMeasurementService
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsByPatientId(int patientId)
+    public async Task<IEnumerable<DBEntities.Measurement>> GetAllMeasurementsBySsn(string ssn)
     {
-        return await _measurementRepository.GetAllMeasurementsByPatientId(patientId);
+        return await _measurementRepository.GetAllMeasurementsBySsn(ssn);
     }
     
     public async Task<DBEntities.Measurement> GetMeasurementById(int measureId)

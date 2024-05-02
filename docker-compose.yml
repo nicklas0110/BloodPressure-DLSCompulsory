@@ -21,42 +21,12 @@ services:
       MSSQL_SA_PASSWORD: "uhohst1nky!"
       ACCEPT_EULA: "Y"
     ports:
-      - "1434:1434"
+      - "1434:1433"
     volumes:
       - mssql_data_patient_db:/var/opt/mssql
     networks:
       - local_network      
-
-  measurementService:
-    image: measurementservice
-    build:
-      context: .
-      dockerfile: ./MeasurementService/Dockerfile
-    ports:
-      - "8081:80"
-      - "8082:443"
-    networks:
-      - local_network
-    depends_on:
-      - zipkin
-      - seq
-      - measurement-db
-        
-  patientService:
-    image: patientservice
-    build:
-      context: .
-      dockerfile: ./PatientService/Dockerfile
-    ports:
-      - "8083:80"
-      - "8084:443"
-    networks:
-      - local_network
-    depends_on:
-      - zipkin
-      - seq
-      - patient-db
-
+  
   seq:
     image: datalust/seq:latest
     ports:
@@ -101,6 +71,43 @@ services:
         - featurehub-h2-data:/db
       ports:
         - "8085:8085"
+
+        
+  measurementService:
+    image: measurementservice
+    build:
+      context: .
+      dockerfile: ./MeasurementService/Dockerfile
+    ports:
+      - "8081:80"
+      - "8082:443"
+    networks:
+      - local_network
+    depends_on:
+      measurement-db:
+        condition: service_started
+      zipkin:
+        condition: service_started
+      seq:
+        condition: service_started
+  
+  patientService:
+    image: patientservice
+    build:
+      context: .
+      dockerfile: ./PatientService/Dockerfile
+    ports:
+      - "8083:80"
+      - "8084:443"
+    networks:
+      - local_network
+    depends_on:
+      measurement-db:
+        condition: service_started
+      zipkin:
+        condition: service_started
+      seq:
+        condition: service_started      
 
 volumes:
   featurehub-h2-data:

@@ -14,8 +14,9 @@ namespace PatientService.Migrations
                 name: "Patients",
                 columns: table => new
                 {
-                    Ssn = table.Column<int>(type: "int", nullable: false),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ssn = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mail = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -23,10 +24,17 @@ namespace PatientService.Migrations
                     table.PrimaryKey("PK_Patients", x => x.Ssn);
                 });
 
-            migrationBuilder.InsertData(
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_Mail",
                 table: "Patients",
-                columns: new[] { "Ssn", "Mail", "Name" },
-                values: new object[] { 1010101010, "g.g@gmail.com", "John Doe" });
+                column: "Mail",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_Ssn",
+                table: "Patients",
+                column: "Ssn",
+                unique: true);
         }
 
         /// <inheritdoc />
