@@ -93,8 +93,17 @@ services:
       - local_network
     environment:
       - MYSQL_USER=zipkin
+        
+  featurehub:
+      image: featurehub/party-server:latest
+      restart: always
+      volumes:
+        - featurehub-h2-data:/db
+      ports:
+        - "8085:8085"
 
 volumes:
+  featurehub-h2-data:
   seq_data:
   zipkin_data:
   mssql_data_measurement_db:
