@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace Measurement.Controllers;
+namespace MeasurementService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
