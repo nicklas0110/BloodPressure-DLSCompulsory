@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using PatientService.Core.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Monitoring;
 using OpenTelemetry.Trace;
 using DBEntities = PatientService.Core.Entities;
-using PatientService.Core.Repositories.Interfaces;
 
 namespace PatientService.Core.Repositories;
 
@@ -33,7 +33,7 @@ public class PatientRepository : IPatientRepository
         
         Logging.Log.Information("Called GetPatientBySsn function");
         
-        return await _context.Patients.FirstOrDefaultAsync(c => c.Ssn == ssn);
+        return (await _context.Patients.FirstOrDefaultAsync(c => c.Ssn == ssn))!;
     }
 
     public async Task AddPatient(DBEntities.Patient patient)

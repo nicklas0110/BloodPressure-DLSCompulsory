@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PatientService.Core.DTOs;
 using PatientService.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace Patient.Controllers;
+namespace PatientService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -56,7 +56,7 @@ public class PatientController : ControllerBase // Make sure it derives from Con
     }
     
     [HttpGet]
-    [Route("getPaitientBySsn/{ssn}")]
+    [Route("getPatientBySsn/{ssn}")]
     public async Task<IActionResult> GetPatientBySsn([FromRoute] int ssn)
     {
         try
