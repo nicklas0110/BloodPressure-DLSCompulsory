@@ -1,13 +1,11 @@
-using System;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+using FeatureHub;
 using PatientService.Core.DTOs;
 using PatientService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Monitoring;
+using OpenTelemetry.Trace;
 using Microsoft.Extensions.Logging;
-using Polly;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PatientService.Controllers;
 
@@ -15,14 +13,19 @@ namespace PatientService.Controllers;
 [Route("api/[controller]")]
 public class PatientController : ControllerBase // Make sure it derives from ControllerBase for web functionalities
 {
-    private readonly ILogger<PatientController> _logger;
+    private readonly ILogger _logger;
     private readonly IPatientService _patientService;
     private readonly HttpClient _httpClient = new();
+    private readonly FeatureHubClient _featureHubClient;
+    private readonly Tracer _tracer;
 
-    public PatientController(ILogger<PatientController> logger, IPatientService patientService)
+    public PatientController(ILogger<PatientController> logger, IPatientService patientService, Tracer tracer, FeatureHubClient featureHubClient)
     {
         _logger = logger;
         _patientService = patientService;
+        _tracer = tracer;
+        _featureHubClient = featureHubClient;
+        
     }
     
     [HttpGet]
@@ -74,9 +77,21 @@ public class PatientController : ControllerBase // Make sure it derives from Con
     [Route("deletePatient/{ssn}")]
     public async Task<IActionResult> DeletePatient([FromRoute] int ssn)
     {
+        
+        using var activity = _tracer.StartActiveSpan("DeletePatient");
+        Logging.Log.Information("A deletePatient function has been called.");
+        
         try
         {
+            var country = HttpContext.Request.Headers["country"];
+            if (country.IsNullOrEmpty()) return BadRequest("No country provided");
+            
+            var feature = await _featureHubClient.IsCountryAllowed(country);
+            
+            if (!feature) return StatusCode(403, $"{country} is not part of our service area.");
+
             await _patientService.DeletePatient(ssn);
+            
             return StatusCode(201, "Patient successfully deleted");
         }
         catch (Exception e)
