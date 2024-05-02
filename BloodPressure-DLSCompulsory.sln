@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitoring", "Monitoring\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureHub", "FeatureHub\FeatureHub.csproj", "{899DF7A4-3111-4767-AAD7-41042038E90D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6FA13450-ACA2-4A1D-9130-2AFBF696ECE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +56,9 @@ Global
 		{899DF7A4-3111-4767-AAD7-41042038E90D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{899DF7A4-3111-4767-AAD7-41042038E90D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{899DF7A4-3111-4767-AAD7-41042038E90D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FA13450-ACA2-4A1D-9130-2AFBF696ECE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA13450-ACA2-4A1D-9130-2AFBF696ECE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA13450-ACA2-4A1D-9130-2AFBF696ECE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA13450-ACA2-4A1D-9130-2AFBF696ECE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
