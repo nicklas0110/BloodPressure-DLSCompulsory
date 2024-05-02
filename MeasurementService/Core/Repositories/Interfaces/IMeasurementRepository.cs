@@ -1,5 +1,4 @@
-﻿using MeasurementService.Core.Entities;
-using DBEntities = MeasurementService.Core.Entities;
+﻿using DBEntities = MeasurementService.Core.Entities;
 
 namespace MeasurementService.Core.Repositories.Interfaces;
 

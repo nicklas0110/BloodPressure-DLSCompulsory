@@ -1,6 +1,4 @@
 ﻿using MeasurementService.Core.Repositories.Interfaces;
-using MeasurementService.Core.Entities;
-using MeasurementService.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Monitoring;
 using OpenTelemetry.Trace;

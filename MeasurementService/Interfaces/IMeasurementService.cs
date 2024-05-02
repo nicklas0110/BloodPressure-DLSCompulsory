@@ -1,8 +1,4 @@
-using MeasurementService.Core.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DBEntities = MeasurementService.Core.Entities;
-
 using MeasurementService.Core.DTOs;
 
 namespace MeasurementService.Interfaces;
