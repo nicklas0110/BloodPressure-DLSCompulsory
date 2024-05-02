@@ -3,21 +3,22 @@
     <h2>Enter Measurement</h2>
     <div class="form-section">
 
-
       <label for="ssn">SSN (min 8 digits):</label>
       <input type="text" id="ssn" name="ssn" [(ngModel)]="patient.ssn" required placeholder="Enter SSN" (ngModelChange)="f.form.controls.ssn.updateValueAndValidity()">
 
-      <!-- Conditional rendering of the rest of the form -->
       <div class="inputs2" *ngIf="hasValidSSN()">
         <label for="systolic">Systolic Pressure:</label>
-        <input type="number" id="systolic" name="systolic" [(ngModel)]="patient.measurements[0].systolic" required placeholder="Enter Systolic Pressure">
+        <input type="number" id="systolic" name="systolic" [(ngModel)]="systolic" required placeholder="Enter Systolic Pressure">
 
         <label for="diastolic">Diastolic Pressure:</label>
-        <input type="number" id="diastolic" name="diastolic" [(ngModel)]="patient.measurements[0].diastolic" required placeholder="Enter Diastolic Pressure">
+        <input type="number" id="diastolic" name="diastolic" [(ngModel)]="diastolic" required placeholder="Enter Diastolic Pressure">
 
-        <button (click)="onSubmit(f)">Submit Measurement</button>
+        <button type="submit">Submit Measurement</button>
+
+
       </div>
     </div>
   </div>
-
+    <p class="message" *ngIf="isMessageVisible">Data sent!</p>
+    <p class="message" *ngIf="errorMessage">{{ errorMessage }}</p>
 </form>
