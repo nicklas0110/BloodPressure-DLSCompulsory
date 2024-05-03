@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurementService", "Measu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientService", "PatientService\PatientService.csproj", "{1748D850-2AE5-4F70-BDAA-81B7E6BB69CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientUI", "PatientUI\PatientUI.csproj", "{D8002936-8C42-4552-B538-5A89A1F56285}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitoring", "Monitoring\Monitoring.csproj", "{29984B6D-A89B-4921-A597-800708138EB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureHub", "FeatureHub\FeatureHub.csproj", "{899DF7A4-3111-4767-AAD7-41042038E90D}"
@@ -26,10 +24,6 @@ Global
 		{1748D850-2AE5-4F70-BDAA-81B7E6BB69CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1748D850-2AE5-4F70-BDAA-81B7E6BB69CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1748D850-2AE5-4F70-BDAA-81B7E6BB69CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8002936-8C42-4552-B538-5A89A1F56285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8002936-8C42-4552-B538-5A89A1F56285}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8002936-8C42-4552-B538-5A89A1F56285}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8002936-8C42-4552-B538-5A89A1F56285}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2979A476-4C16-4B3F-A9A1-06AB3E0CED39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2979A476-4C16-4B3F-A9A1-06AB3E0CED39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2979A476-4C16-4B3F-A9A1-06AB3E0CED39}.Release|Any CPU.ActiveCfg = Release|Any CPU
