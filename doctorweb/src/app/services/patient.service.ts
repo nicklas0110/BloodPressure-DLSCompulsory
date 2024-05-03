@@ -1,34 +1,37 @@
 // src/app/patient.service.ts
-import { Injectable } from '@angular/core';
-import { Patient } from '../models/patient.model';
+import { HttpClient } from '@angular/common/http';
+import {inject, Injectable } from '@angular/core';
+import { Patient } from '../core/model/patient.model';
+import { Measurement } from '../core/model/measurement.model';
+import { apiEndpoint } from '../core/constraints';
+import { Observable } from 'rxjs';
+import { AddPatientDto } from '../core/DTOs/addPatient.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientService {
-  private patients: Patient[] = [
-    {
-      ssn: '0123456789',
-      mail: 'john.doe@example.com',
-      name: 'John Doe',
-      measurements: [
-        { id: 1, date: new Date(), systolic: 120, diastolic: 80, seen: false },
-        { id: 2, date: new Date(), systolic: 130, diastolic: 85, seen: false }
-      ]
-    }
-  ];
+  private _httpClient: HttpClient = inject(HttpClient);
 
-  addPatient(patient: Patient) {
-    this.patients.push(patient);
+  private patients: Patient[] = [];
+
+  addPatient(addPatientDto: AddPatientDto): Observable<any> {
+    return this._httpClient.post(`${apiEndpoint.PatientEndPoint.addPatient}/`, addPatientDto, { responseType: 'text' });
   }
 
   deletePatient(ssn: string) {
     this.patients = this.patients.filter(patient => patient.ssn !== ssn);
   }
 
-  getPatients(): Patient[] {
-    return this.patients;
+  getMeasurementsBySSN(ssn: string): Observable<Measurement[]> {
+    return this._httpClient.get<Measurement[]>(`${apiEndpoint.MeasurementEndPoint.getMeasurement}/${ssn}`);
   }
+
+  getAllPatients(): Observable<Patient[]> {
+    return this._httpClient.get<Patient[]>(`${apiEndpoint.PatientEndPoint.getAllPatients}`);
+  }
+
+
 
   markMeasurementAsSeen(ssn: string, measurementId: number) {
     const patient = this.patients.find(p => p.ssn === ssn);

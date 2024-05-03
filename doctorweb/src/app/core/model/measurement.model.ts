@@ -1,7 +1,9 @@
 export interface Measurement {
   id: number;
-  date: Date;
+  dateTaken: Date;
   systolic: number;
   diastolic: number;
+  patientSSN: string,
   seen: boolean;
 }
+

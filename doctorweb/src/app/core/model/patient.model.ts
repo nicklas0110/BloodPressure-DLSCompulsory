@@ -1,4 +1,4 @@
-import { Measurement } from './measurement.model';
+import { Measurement } from "./measurement.model";
 
 export interface Patient {
   ssn: string;

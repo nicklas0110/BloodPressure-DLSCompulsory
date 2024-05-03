@@ -7,15 +7,16 @@
     <button (click)="addPatient()">Add Patient</button>
   </div>
 
-  <div class="list-section" *ngFor="let patient of patientService.getPatients()">
+  <div class="list-section" *ngFor="let patient of patients">
     <div class="patient-info">
       <h3>{{ patient.name }}</h3>
       <p>SSN: {{ patient.ssn }}</p>
       <p>Email: {{ patient.mail }}</p>
+      <button (click)="loadMeasurements(patient.ssn)">Load Measurements</button>
     </div>
-    <ul>
-      <li *ngFor="let measurement of patient.measurements" [class.seen]="measurement.seen">
-        {{ measurement.date | date }} - Systolic: {{ measurement.systolic }}, Diastolic: {{ measurement.diastolic }}
+    <ul *ngIf="patient.ssn === currentSSN">
+      <li *ngFor="let measurement of measurements" [class.seen]="measurement.seen">
+        {{ measurement.dateTaken | date: 'MMM d, y, h:mm' }} - Systolic: {{ measurement.systolic }}, Diastolic: {{ measurement.diastolic }}
         <span *ngIf="measurement.seen" class="seen-indicator">Seen</span>
         <button *ngIf="!measurement.seen" (click)="markAsSeen(patient.ssn, measurement.id)">Mark as Seen</button>
       </li>
