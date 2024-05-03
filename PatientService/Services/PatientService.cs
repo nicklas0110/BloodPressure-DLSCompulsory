@@ -27,19 +27,20 @@ public class PatientService : IPatientService
         return await _patientRepository.GetAllPatients();
     }
     
-    public async Task<DBEntities.Patient> GetPatientBySsn(int ssn)
+    public async Task<DBEntities.Patient> GetPatientBySsn(string ssn)
     {
         return await _patientRepository.GetPatientBySsn(ssn);
     }
 
 
-    public async Task AddPatient(PatientDTO patientDTO)
+    public async Task<DBEntities.Patient> AddPatient(PatientDTO patientDTO)
     {
-        await _patientRepository.AddPatient(_mapper.Map<DBEntities.Patient>(patientDTO));
+        var patient = await _patientRepository.AddPatient(_mapper.Map<DBEntities.Patient>(patientDTO));
+        return patient;
     }
 
 
-    public async Task DeletePatient(int ssn)
+    public async Task DeletePatient(string ssn)
     {
         await _patientRepository.DeletePatient(ssn);
     }

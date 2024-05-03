@@ -27,7 +27,7 @@ public class PatientRepository : IPatientRepository
         return await _context.Patients.ToListAsync();
     }
     
-    public async Task<DBEntities.Patient> GetPatientBySsn(int ssn)
+    public async Task<DBEntities.Patient> GetPatientBySsn(string ssn)
     {
         using var activity = _tracer.StartActiveSpan("GetPatientBySsn");
         
@@ -36,7 +36,7 @@ public class PatientRepository : IPatientRepository
         return (await _context.Patients.FirstOrDefaultAsync(c => c.Ssn == ssn))!;
     }
 
-    public async Task AddPatient(DBEntities.Patient patient)
+    public async Task<DBEntities.Patient> AddPatient(DBEntities.Patient patient)
     {
         using var activity = _tracer.StartActiveSpan("AddPatientToDB");
         
@@ -44,10 +44,11 @@ public class PatientRepository : IPatientRepository
         
         await _context.Patients.AddAsync(patient);
         await _context.SaveChangesAsync();
+        return patient;
     }
 
 
-    public async Task DeletePatient(int ssn)
+    public async Task DeletePatient(string ssn)
     {
         var patient = await GetPatientBySsn(ssn);
         _context.Patients.Remove(patient);

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FeatureHubSDK;
 using PatientService.Core.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +32,15 @@ var mapperConfig = new MapperConfiguration(config =>
 
 builder.Services.AddSingleton(mapperConfig);
 
+var featureHubApiKey = builder.Configuration["FeatureHubApiKey"]; // Ensure this key exists in your appsettings.json or environment variables
+
+builder.Services.AddSingleton<FeatureHub.FeatureHubClient>(provider => new FeatureHub.FeatureHubClient(featureHubApiKey));
+
 builder.Services.AddDbContext<PatientDbContext>();
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PS.PatientService>();
+builder.Services.AddScoped<IFeatureHubRepository, FeatureHubRepository>();
 
 var app = builder.Build();
 

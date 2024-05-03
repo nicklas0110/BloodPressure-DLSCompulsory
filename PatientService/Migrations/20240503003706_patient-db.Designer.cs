@@ -11,7 +11,7 @@ using PatientService.Core.Repositories;
 namespace PatientService.Migrations
 {
     [DbContext(typeof(PatientDbContext))]
-    [Migration("20240501232550_patient-db")]
+    [Migration("20240503003706_patient-db")]
     partial class patientdb
     {
         /// <inheritdoc />
@@ -26,11 +26,8 @@ namespace PatientService.Migrations
 
             modelBuilder.Entity("PatientService.Core.Entities.Patient", b =>
                 {
-                    b.Property<int>("Ssn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Ssn"));
+                    b.Property<string>("Ssn")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Mail")
                         .IsRequired()

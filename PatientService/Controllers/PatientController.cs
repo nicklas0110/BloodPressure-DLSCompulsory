@@ -60,7 +60,7 @@ public class PatientController : ControllerBase // Make sure it derives from Con
     
     [HttpGet]
     [Route("getPatientBySsn/{ssn}")]
-    public async Task<IActionResult> GetPatientBySsn([FromRoute] int ssn)
+    public async Task<IActionResult> GetPatientBySsn([FromRoute] string ssn)
     {
         try
         {
@@ -75,7 +75,7 @@ public class PatientController : ControllerBase // Make sure it derives from Con
     
     [HttpDelete]
     [Route("deletePatient/{ssn}")]
-    public async Task<IActionResult> DeletePatient([FromRoute] int ssn)
+    public async Task<IActionResult> DeletePatient([FromRoute] string ssn)
     {
         
         using var activity = _tracer.StartActiveSpan("DeletePatient");
@@ -93,6 +93,21 @@ public class PatientController : ControllerBase // Make sure it derives from Con
             await _patientService.DeletePatient(ssn);
             
             return StatusCode(201, "Patient successfully deleted");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Route("rebuildDb")]
+    public async Task<IActionResult> RebuildDb()
+    {
+        try
+        {
+            await _patientService.RebuildDatabase();
+            return StatusCode(201, "Database successfully build");
         }
         catch (Exception e)
         {

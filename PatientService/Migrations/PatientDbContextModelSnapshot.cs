@@ -23,11 +23,8 @@ namespace PatientService.Migrations
 
             modelBuilder.Entity("PatientService.Core.Entities.Patient", b =>
                 {
-                    b.Property<int>("Ssn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Ssn"));
+                    b.Property<string>("Ssn")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Mail")
                         .IsRequired()
