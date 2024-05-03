@@ -3,14 +3,15 @@ version: '3.8'
 services:
   doctorui:
     ports:
-      - "8070:80"
+      - "8060:80"
     build:
       context: .
-      dockerfile: ./Frontend/DoctorUI/Dockerfile
+      dockerfile: ./doctorweb/Dockerfile
     volumes:
-      - ./Frontend/DoctorUI/src:/app/src:delegated
+      - ./doctorweb/src:/app/src:delegated
     depends_on:
       - measurementService
+      - patientService
 
   patientui:
     ports:
