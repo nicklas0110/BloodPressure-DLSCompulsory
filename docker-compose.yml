@@ -14,13 +14,14 @@ services:
 
   patientui:
     ports:
-      - "8060:80"
+      - "8070:80"
     build:
       context: .
-      dockerfile: ./Frontend/PatientUI/Dockerfile
+      dockerfile: ./patientweb/Dockerfile
     volumes:
-      - ./Frontend/PatientUI/src:/app/src:delegated
+      - ./patientweb/src:/app/src:delegated
     depends_on:
+      - measurementService
       - patientService
   
   patient-db:
