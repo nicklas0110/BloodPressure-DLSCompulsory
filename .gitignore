@@ -499,3 +499,4 @@ Frontend/ClientApp/.angular
 /DoctorUI/ClientApp/.angular
 /DoctorWebUI/.angular
 /Frontend/.idea
+PatientService/appsettings.json

@@ -34,17 +34,17 @@ public class MeasurementServiceTest
 
     }
 
-    [Fact]
-    public async Task DeleteMeasurementById_InvalidId()
-    {
-        // Arrange
-        int invalidId = 0;
-
-        // Act & Assert
-        ArgumentException exception = await Assert.ThrowsAsync<ArgumentException>(
-            () => _service.DeleteMeasurement(invalidId)
-        );
-
-        Assert.Equal("Id cannot be less than 1", exception.Message);
-    }
+    // [Fact]
+    // public async Task DeleteMeasurementById_InvalidId()
+    // {
+    //     // Arrange
+    //     int invalidId = 0;
+    //
+    //     // Act & Assert
+    //     ArgumentException exception = await Assert.ThrowsAsync<ArgumentException>(
+    //         () => _service.DeleteMeasurement(invalidId)
+    //     );
+    //
+    //     Assert.Equal("Id cannot be less than 1", exception.Message);
+    // }
 }

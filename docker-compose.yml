@@ -1,6 +1,28 @@
 version: '3.8'
 
 services:
+  doctorui:
+    ports:
+      - "8070:80"
+    build:
+      context: .
+      dockerfile: ./Frontend/DoctorUI/Dockerfile
+    volumes:
+      - ./Frontend/DoctorUI/src:/app/src:delegated
+    depends_on:
+      - measurementService
+
+  patientui:
+    ports:
+      - "8060:80"
+    build:
+      context: .
+      dockerfile: ./Frontend/PatientUI/Dockerfile
+    volumes:
+      - ./Frontend/PatientUI/src:/app/src:delegated
+    depends_on:
+      - patientService
+  
   patient-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -25,7 +47,7 @@ services:
     volumes:
       - mssql_data_measurement_db:/var/opt/mssql
     networks:
-      - local_network     
+      - local_network
   
   seq:
     image: datalust/seq:latest
