@@ -60,10 +60,6 @@ export class HomeComponent {
   }
 
   onSubmit(form: NgForm) {
-    if (!this.hasValidSSN()) {
-      this.errorMessage = 'SSN length is incorrect. It must be between 8 and 12 digits.';  // Set specific error message
-      return;
-    }
 
     this.addMeasurement(this.systolic ?? 0, this.diastolic ?? 0, form.value.ssn);
     console.log('Form Submitted!', form.value);

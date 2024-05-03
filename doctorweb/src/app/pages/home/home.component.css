@@ -1,6 +1,6 @@
 .container {
   width: 80%;
-  margin: auto;
+  margin: 10% auto auto;
   padding: 20px;
   border: 2px solid #ccc;
   border-radius: 5px;
