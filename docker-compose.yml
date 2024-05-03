@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   doctorui:
+    image: mols14/doctorui:latest
     ports:
       - "8060:80"
     build:
@@ -14,6 +15,7 @@ services:
       - patientService
 
   patientui:
+    image: mols14/patientui:latest
     ports:
       - "8070:80"
     build:
@@ -98,7 +100,7 @@ services:
   
   
   measurementService:
-    image: measurementservice
+    image: mols14/measurementservice:latest
     build:
       context: .
       dockerfile: ./MeasurementService/Dockerfile
@@ -116,7 +118,7 @@ services:
         condition: service_started
   
   patientService:
-    image: patientservice
+    image: mols14/patientservice:latest
     build:
       context: .
       dockerfile: ./PatientService/Dockerfile

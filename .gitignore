@@ -500,3 +500,7 @@ Frontend/ClientApp/.angular
 /DoctorWebUI/.angular
 /Frontend/.idea
 PatientService/appsettings.json
+/Frontend/DoctorUI/.angular
+/Frontend/DoctorUI/dist
+/Frontend/PatientUI/.angular
+/Frontend/PatientUI/dist
