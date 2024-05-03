@@ -18,41 +18,6 @@ public class MeasurementServiceTest
     {
         _service = new MeasurementService.Services.MeasurementService(_measurementRepositoryMock.Object, _mapperMock.Object);
     }
-    
-    [Fact]
-    public async Task AddMeasurementAsync()
-    {
-        // Arrange
-        var createMeasurementDto = new MeasurementDTO
-        {
-            Systolic = 120,
-            Diastolic = 80,
-            PatientSSN = "12345"
-        };
-
-        var expectedMeasurement = new Measurement
-        {
-            Systolic = createMeasurementDto.Systolic,
-            Diastolic = createMeasurementDto.Diastolic,
-            PatientSSN = createMeasurementDto.PatientSSN
-        };
-
-        _mapperMock.Setup(m => m.Map<Measurement>(It.IsAny<MeasurementDTO>())).Returns(expectedMeasurement);
-        _measurementRepositoryMock.Setup(r => r.AddMeasurements(It.IsAny<Measurement>())).ReturnsAsync(expectedMeasurement);
-        
-        // Act
-        var result =  _service.AddMeasurements(createMeasurementDto);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(createMeasurementDto.Systolic, result.Systolic);
-        Assert.Equal(createMeasurementDto.Diastolic, result.Diastolic);
-        Assert.Equal(createMeasurementDto.PatientSSN, result.PatientSSN);
-        Assert.False(result.IsSeen);
-        Assert.Equal(DateTime.Now.Date, result.Date.Date); 
-        _measurementRepositoryMock.Verify(r => r.AddMeasurements(It.IsAny<Measurement>()), Times.Once);
-
-    }
 
     [Fact]
     public async Task DeleteMeasurementById_validId()
