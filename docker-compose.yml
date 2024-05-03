@@ -1,6 +1,28 @@
 version: '3.8'
 
 services:
+  doctorui:
+    ports:
+      - "8070:80"
+    build:
+      context: .
+      dockerfile: ./Frontend/DoctorUI/Dockerfile
+    volumes:
+      - ./Frontend/DoctorUI/src:/app/src:delegated
+    depends_on:
+      - measurementService
+
+  patientui:
+    ports:
+      - "8060:80"
+    build:
+      context: .
+      dockerfile: ./Frontend/PatientUI/Dockerfile
+    volumes:
+      - ./Frontend/PatientUI/src:/app/src:delegated
+    depends_on:
+      - patientService
+
   measurement-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -13,7 +35,7 @@ services:
       - mssql_data_measurement_db:/var/opt/mssql
     networks:
       - local_network
-        
+  
   patient-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -25,7 +47,7 @@ services:
     volumes:
       - mssql_data_patient_db:/var/opt/mssql
     networks:
-      - local_network      
+      - local_network
   
   seq:
     image: datalust/seq:latest
@@ -63,16 +85,16 @@ services:
       - local_network
     environment:
       - MYSQL_USER=zipkin
-        
+  
   featurehub:
-      image: featurehub/party-server:latest
-      restart: always
-      volumes:
-        - featurehub-h2-data:/db
-      ports:
-        - "8085:8085"
-
-        
+    image: featurehub/party-server:latest
+    restart: always
+    volumes:
+      - featurehub-h2-data:/db
+    ports:
+      - "8085:8085"
+  
+  
   measurementService:
     image: measurementservice
     build:
@@ -107,7 +129,8 @@ services:
       zipkin:
         condition: service_started
       seq:
-        condition: service_started      
+        condition: service_started
+
 
 volumes:
   featurehub-h2-data:

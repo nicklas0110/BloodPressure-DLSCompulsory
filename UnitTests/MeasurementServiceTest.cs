@@ -1,4 +1,5 @@
 using AutoMapper;
+using MeasurementService.Core.Entities;
 using MeasurementService.Core.DTOs;
 using MeasurementService.Core.Repositories.Interfaces;
 using Moq;
@@ -36,11 +37,11 @@ public class MeasurementServiceTest
             PatientSSN = createMeasurementDto.PatientSSN
         };
 
-        _mapperMock.Setup(m => m.Map<Measurement>(It.IsAny<CreateMeasurementDTO>())).Returns(expectedMeasurement);
-        _measurementRepositoryMock.Setup(r => r.AddMeasurementAsync(It.IsAny<Measurement>())).ReturnsAsync(expectedMeasurement);
+        _mapperMock.Setup(m => m.Map<Measurement>(It.IsAny<MeasurementDTO>())).Returns(expectedMeasurement);
+        _measurementRepositoryMock.Setup(r => r.AddMeasurements(It.IsAny<Measurement>())).ReturnsAsync(expectedMeasurement);
         
         // Act
-        var result = await _service.AddMeasurementAsync(createMeasurementDto);
+        var result =  _service.AddMeasurements(createMeasurementDto);
 
         // Assert
         Assert.NotNull(result);
@@ -49,7 +50,7 @@ public class MeasurementServiceTest
         Assert.Equal(createMeasurementDto.PatientSSN, result.PatientSSN);
         Assert.False(result.IsSeen);
         Assert.Equal(DateTime.Now.Date, result.Date.Date); 
-        _measurementRepositoryMock.Verify(r => r.AddMeasurementAsync(It.IsAny<Measurement>()), Times.Once);
+        _measurementRepositoryMock.Verify(r => r.AddMeasurements(It.IsAny<Measurement>()), Times.Once);
 
     }
 
@@ -58,13 +59,13 @@ public class MeasurementServiceTest
     {
         // Arrange
         int validId = 1;
-        _measurementRepositoryMock.Setup(r => r.DeleteMeasurementByIdAsync(validId)).Returns(Task.CompletedTask);
+        _measurementRepositoryMock.Setup(r => r.DeleteMeasurement(validId)).Returns(Task.CompletedTask);
 
         // Act
-        await _service.DeleteMeasurementById(validId);
+        await _service.DeleteMeasurement(validId);
 
         // Assert
-        _measurementRepositoryMock.Verify(r => r.DeleteMeasurementByIdAsync(validId), Times.Once);
+        _measurementRepositoryMock.Verify(r => r.DeleteMeasurement(validId), Times.Once);
 
     }
 
@@ -76,7 +77,7 @@ public class MeasurementServiceTest
 
         // Act & Assert
         ArgumentException exception = await Assert.ThrowsAsync<ArgumentException>(
-            () => _service.DeleteMeasurementById(invalidId)
+            () => _service.DeleteMeasurement(invalidId)
         );
 
         Assert.Equal("Id cannot be less than 1", exception.Message);

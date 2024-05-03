@@ -26,6 +26,6 @@ public class FeatureHubClient
         var featureToggle = await _config.NewContext().Country(countryName).Build();
         
         
-        return featureToggle["DDO"].IsEnabled;
+        return featureToggle["countryAllowed"].IsEnabled;
     }
 }
