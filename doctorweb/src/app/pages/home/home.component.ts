@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit{
 
   currentSSN: string = "";
   patients: Patient[] = [];
-  measurements: Measurement[] = [];
+  measurementsBySsn: { [ssn: string]: Measurement[] } = {};
 
   ngOnInit() {
     this._patientService.getAllPatients().subscribe({
@@ -48,16 +48,12 @@ export class HomeComponent implements OnInit{
   }
 
   loadMeasurements(ssn: string) {
-    console.log("Loading measurements for SSN:", ssn);  // This will show what SSN is being passed
-    this.currentSSN = ssn;
-    this._patientService.getMeasurementsBySSN(ssn).subscribe({
-      next: (measurements) => {
-        this.measurements = measurements;
-      },
-      error: (error) => {
-        console.error('Failed to fetch measurements', error);
-      }
-    });
+    if (!this.measurementsBySsn[ssn]) {  // Only load if not already loaded
+      this._patientService.getMeasurementsBySSN(ssn).subscribe({
+        next: (measurements) => this.measurementsBySsn[ssn] = measurements,
+        error: (error) => console.error('Failed to fetch measurements for SSN:', ssn, error)
+      });
+    }
   }
 
 

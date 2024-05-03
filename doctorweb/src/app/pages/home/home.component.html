@@ -14,8 +14,8 @@
       <p>Email: {{ patient.mail }}</p>
       <button (click)="loadMeasurements(patient.ssn)">Load Measurements</button>
     </div>
-    <ul *ngIf="patient.ssn === currentSSN">
-      <li *ngFor="let measurement of measurements" [class.seen]="measurement.seen">
+    <ul *ngIf="measurementsBySsn[patient.ssn]">
+      <li *ngFor="let measurement of measurementsBySsn[patient.ssn]" [class.seen]="measurement.seen">
         {{ measurement.dateTaken | date: 'MMM d, y, h:mm' }} - Systolic: {{ measurement.systolic }}, Diastolic: {{ measurement.diastolic }}
         <span *ngIf="measurement.seen" class="seen-indicator">Seen</span>
         <button *ngIf="!measurement.seen" (click)="markAsSeen(patient.ssn, measurement.id)">Mark as Seen</button>
