@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientService", "PatientSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientUI", "PatientUI\PatientUI.csproj", "{D8002936-8C42-4552-B538-5A89A1F56285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorUI", "DoctorUI\DoctorUI.csproj", "{2979A476-4C16-4B3F-A9A1-06AB3E0CED39}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitoring", "Monitoring\Monitoring.csproj", "{29984B6D-A89B-4921-A597-800708138EB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureHub", "FeatureHub\FeatureHub.csproj", "{899DF7A4-3111-4767-AAD7-41042038E90D}"
