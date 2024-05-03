@@ -8,5 +8,6 @@ public interface IMeasurementRepository
     public Task<DBEntities.Measurement> GetMeasurementById(int measurementId);
     public Task AddMeasurements(DBEntities.Measurement measurement);
     public Task DeleteMeasurement(int measurementId);
+    public Task<bool> MarkMeasurementAsSeen(int id);
     public Task RebuildDatabase();
 }

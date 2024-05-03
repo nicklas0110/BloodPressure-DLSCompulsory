@@ -21,6 +21,6 @@
         <button *ngIf="!measurement.seen" (click)="markAsSeen(patient.ssn, measurement.id)">Mark as Seen</button>
       </li>
     </ul>
-    <button class="delete-btn" (click)="deletePatient(patient.ssn)">Delete Patient</button>
+    <button class="delete-btn" (click)="deletePatient(patient.ssn, 'Denmark')">Delete Patient</button>
   </div>
 </div>

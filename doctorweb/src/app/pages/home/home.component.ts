@@ -56,12 +56,36 @@ export class HomeComponent implements OnInit{
     }
   }
 
-
-  deletePatient(ssn: string) {
-    this._patientService.deletePatient(ssn);
+  deletePatient(ssn: string, country: string) {
+    if (confirm("Are you sure you want to delete this patient?")) {
+      this._patientService.deletePatient(ssn, country).subscribe({
+        next: () => {
+          this.patients = this.patients.filter(patient => patient.ssn !== ssn);
+          alert('Patient successfully deleted.');
+        },
+        error: (error) => {
+          console.error('Failed to delete patient', error);
+          alert(error.error); // Show error message from backend
+        }
+      });
+    }
   }
 
   markAsSeen(ssn: string, measurementId: number) {
-    this._patientService.markMeasurementAsSeen(ssn, measurementId);
+    this._patientService.markMeasurementAsSeen(ssn, measurementId).subscribe({
+      next: (response) => {
+        console.log('Measurement marked as seen', response);
+        // Find and update the specific measurement
+        const measurements = this.measurementsBySsn[ssn];
+        if (measurements) {
+          const measurement = measurements.find(m => m.id === measurementId);
+          if (measurement) {
+            measurement.seen = true;
+          }
+        }
+      },
+      error: (error) => console.error('Error updating measurement:', error)
+    });
   }
+
 }

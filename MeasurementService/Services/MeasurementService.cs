@@ -45,6 +45,11 @@ public class MeasurementService : IMeasurementService
         await _measurementRepository.DeleteMeasurement(measurementId);
     }
 
+    public async Task<bool> MarkMeasurementAsSeen(int id)
+    {
+        return await _measurementRepository.MarkMeasurementAsSeen(id);
+    }
+    
     public async Task RebuildDatabase()
     {
         await _measurementRepository.RebuildDatabase();

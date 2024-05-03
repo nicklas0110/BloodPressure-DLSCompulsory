@@ -1,5 +1,5 @@
 // src/app/patient.service.ts
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {inject, Injectable } from '@angular/core';
 import { Patient } from '../core/model/patient.model';
 import { Measurement } from '../core/model/measurement.model';
@@ -19,9 +19,15 @@ export class PatientService {
     return this._httpClient.post(`${apiEndpoint.PatientEndPoint.addPatient}/`, addPatientDto, { responseType: 'text' });
   }
 
-  deletePatient(ssn: string) {
-    this.patients = this.patients.filter(patient => patient.ssn !== ssn);
+  deletePatient(ssn: string, country: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'country': country
+      })
+    };
+    return this._httpClient.delete(`${apiEndpoint.PatientEndPoint.deletePatient}/${ssn}`, httpOptions);
   }
+
 
   getMeasurementsBySSN(ssn: string): Observable<Measurement[]> {
     return this._httpClient.get<Measurement[]>(`${apiEndpoint.MeasurementEndPoint.getMeasurement}/${ssn}`);
@@ -33,11 +39,9 @@ export class PatientService {
 
 
 
-  markMeasurementAsSeen(ssn: string, measurementId: number) {
-    const patient = this.patients.find(p => p.ssn === ssn);
-    const measurement = patient?.measurements.find(m => m.id === measurementId);
-    if (measurement) {
-      measurement.seen = true;
-    }
+  // Inside your PatientService or MeasurementService, depending on how you've organized it
+  markMeasurementAsSeen(ssn: string, measurementId: number): Observable<any> {
+    return this._httpClient.put(`${apiEndpoint.MeasurementEndPoint.updateMeasurementSeen}/${measurementId}`, {});
   }
+
 }

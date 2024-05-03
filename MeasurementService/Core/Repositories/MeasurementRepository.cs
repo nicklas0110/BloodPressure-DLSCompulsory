@@ -56,6 +56,18 @@ public class MeasurementRepository : IMeasurementRepository
         _context.Measurements.Remove(measurement);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<bool> MarkMeasurementAsSeen(int id)
+    {
+        var measurement = await _context.Measurements.FirstOrDefaultAsync(m => m.Id == id);
+        if (measurement != null)
+        {
+            measurement.Seen = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
+    }
 
     public async Task RebuildDatabase()
     { 

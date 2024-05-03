@@ -85,4 +85,23 @@ public class MeasurementController : ControllerBase // Make sure it derives from
         }
     }
     
+    [HttpPut]
+    [Route("updateMeasurementSeen/{id}")]
+    public async Task<IActionResult> UpdateMeasurementSeen([FromRoute] int id)
+    {
+        try
+        {
+            var result = await _measurementService.MarkMeasurementAsSeen(id);
+            if (result)
+            {
+                return Ok("Measurement updated successfully.");
+            }
+            return NotFound("Measurement not found.");
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, "Internal server error: " + e.Message);
+        }
+    }
+    
 }

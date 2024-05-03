@@ -5,9 +5,11 @@ export const apiEndpoint = {
   PatientEndPoint: {
     addPatient: `${patientUrl}/Patient/AddPatient`,
     getAllPatients: `${patientUrl}/Patient/GetAllPatients`,
+    deletePatient: `${patientUrl}/Patient/DeletePatient`,
   },
   MeasurementEndPoint: {
     getMeasurement: `${measurementUrl}/Measurement/GetAllMeasurementsBySsn`,
+    updateMeasurementSeen: `${measurementUrl}/Measurement/UpdateMeasurementSeen`,
   },
 
 }

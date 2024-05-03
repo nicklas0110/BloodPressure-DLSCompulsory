@@ -9,6 +9,7 @@ public interface IMeasurementService
     Task<DBEntities.Measurement> GetMeasurementById(int measurementId); // For fetching a specific measurement
     Task AddMeasurements(MeasurementDTO measurementDTO); // For adding a new measurement
     Task DeleteMeasurement(int measurementId); // For deleting a specific measurement
+    Task<bool> MarkMeasurementAsSeen(int id);
     
     public Task RebuildDatabase();
 }
